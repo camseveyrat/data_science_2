@@ -1,11 +1,12 @@
 ## =====================================================================
 ## Préparation des données : jointure collemboles x sites (BISES)
-## Sortie : data_merged.csv (1 ligne = 1 échantillon, format read.csv2)
+## Sortie : Data/non_nettoye/data_merged.csv (1 ligne = 1 échantillon, format read.csv2)
 ## Cible pour la régression : H (indice de Shannon)
+## A lancer depuis le dossier Données/
 ## =====================================================================
 
-data1     <- read.csv2("collembola_data_year1_train.csv", header = TRUE)
-data_site <- read.csv2("BISES_data_sites.csv", header = TRUE, fileEncoding = "UTF-8-BOM")
+data1     <- read.csv2("Data/non_nettoye/collembola_data_year1_train.csv", header = TRUE)
+data_site <- read.csv2("Data/non_nettoye/BISES_data_sites.csv", header = TRUE, fileEncoding = "UTF-8-BOM")
 data1$X   <- NULL  # colonne d'index sans nom
 
 ## ---------------------------------
@@ -74,7 +75,7 @@ front  <- c("Echantillon", "Site", "site_base", "variante", "replicat",
             "city", "land_use", "site_group", "sol_impute", "A", "S", "H", "J")
 merged <- merged[order(merged$Echantillon), c(front, setdiff(names(merged), front))]
 
-write.csv2(merged, "data_merged.csv", row.names = FALSE)
+write.csv2(merged, "Data/non_nettoye/data_merged.csv", row.names = FALSE)
 
 cat("Lignes :", nrow(merged), "| colonnes :", ncol(merged),
     "| sites :", length(unique(merged$Site)), "\n")
