@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1794313547039,
+  "projectRoot": "/Users/Noah/data_science_2",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "Données": {
+      "path": "Données",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1794313546987,
+      "keyFiles": [
+        "BISES_data_sites.csv",
+        "collembola_data_year1_train.csv",
+        "read_data_collembola.R"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "Données/prepare_data.R",
+      "accessCount": 1,
+      "lastAccessed": 1794313735275,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
