@@ -22,11 +22,17 @@ soil <- c("Argile", "Limon", "Sable", "Conduct", "pH.eau", "Carbonates", "Calcai
 # Les 2 sites au sol imputé sont retirés (pas de vraie mesure de X).
 m <- m[m$sol_impute == "non", ]
 
-rep_ <- aggregate(cbind(A, S, H) ~ Site, m, mean)   # moyennes des réplicats
+# J est NA quand S <= 1 (équitabilité indéfinie) : moyenne sur les réplicats
+# renseignés, et J reste NA pour les 6 sites dont aucun réplicat n'a S > 1.
+# na.action = na.pass est indispensable : sans lui, aggregate supprime les
+# lignes où J est NA et perdrait 6 sites.
+rep_ <- aggregate(cbind(A, S, H, J) ~ Site, m, mean, na.rm = TRUE,
+                  na.action = na.pass)
 rep_$n_rep <- as.vector(table(m$Site)[rep_$Site])   # nb de réplicats (3, sauf 1 site)
 site <- merge(rep_, m[!duplicated(m$Site), c("Site", "city", "land_use", "site_group", soil)],
               by = "Site")
-stopifnot(nrow(site) == length(unique(m$Site)), !anyNA(site))
+stopifnot(nrow(site) == length(unique(m$Site)),
+          !anyNA(site[, setdiff(names(site), "J")]))   # J peut être NA (S <= 1)
 
 ## ---------------------------------
 ## 2. Colinéarité : diagnostic seulement (chap. 8.1-8.2)
@@ -40,7 +46,7 @@ cat("p =", length(soil), "| rang =", qr(cbind(1, as.matrix(site[, soil])))$rank,
 
 ## ---------------------------------
 ## 4. Export
-site <- site[, c("Site", "city", "land_use", "site_group", "n_rep", "H", "S", "A", soil)]
+site <- site[, c("Site", "city", "land_use", "site_group", "n_rep", "H", "J", "S", "A", soil)]
 write.csv2(site, "Data/nettoye/data_site.csv", row.names = FALSE)
 cat("Ecrit : Data/nettoye/data_site.csv —", nrow(site), "sites x", ncol(site), "colonnes\n")
-# Rappel : S et A sont d'autres réponses possibles, PAS des explicatives de H.
+# Rappel : J, S et A sont d'autres réponses possibles, PAS des explicatives de H.
